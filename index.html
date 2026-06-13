@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmoothOS</title>
+  <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+  <!-- Animated gradient desktop -->
+  <div id="desktop">
+    <div class="blob blob-a"></div>
+    <div class="blob blob-b"></div>
+    <div class="blob blob-c"></div>
+
+    <!-- Top bar -->
+    <div id="topbar">
+      <div class="topbar-left">
+        <p id="welcomeopen" class="topbar-brand">SmoothOS</p>
+        <p id="aimopen" class="topbar-item">Aim Trainer</p>
+      </div>
+      <div class="topbar-right">
+        <span id="clock" class="topbar-clock">00:00</span>
+      </div>
+    </div>
+
+    <!-- Welcome window -->
+    <div class="window" id="welcome" style="top: calc(50% - 150px); left: calc(50% - 200px);">
+      <div class="windowheader" id="welcomeheader">
+        <div class="traffic-lights">
+          <div class="closebutton" id="welcomeclose" title="Close"></div>
+          <div class="dot dot-yellow"></div>
+          <div class="dot dot-green"></div>
+        </div>
+        <p class="headertext">Welcome</p>
+        <span class="header-spacer"></span>
+      </div>
+      <div class="windowbody">
+        <h1 class="welcome-title">SmoothOS</h1>
+        <p class="welcome-sub">Drag me by the bar. Close me. Reopen from the menu.</p>
+        <button class="cta" id="welcomeclose2">Got it</button>
+      </div>
+    </div>
+
+    <div class="window" id="aimtrainer" style="top: calc(50% - 150px); left: calc(50% - 200px);">
+
+      <div class="windowheader" id="aimtrainerheader">
+        <div class="traffic-lights">
+          <div class="closebutton" id="aimclose" title="Close"></div>
+          <div class="dot dot-yellow"></div>
+          <div class="dot dot-green"></div>
+        </div>
+        <p class="headertext">Aim Trainer</p>
+        <span class="header-spacer"></span>
+      </div>
+      <div class="windowbody">
+        <h1 class="aim-title">Aim Trainer</h1>
+        <p class="welcome-sub">This will be an Aim Trainer for SmoothOS.</p>
+        <button class="cta" id="startgame">Let's go!</button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
