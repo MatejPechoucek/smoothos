@@ -9,23 +9,39 @@ function tickClock() {
 tickClock();
 setInterval(tickClock, 1000);
 
-// ---------- Draggable window ----------
-// Make the welcome window draggable by its header.
-dragElement(document.getElementById("welcome"));
-dragElement(document.getElementById("aimtrainer"));
+// ---------- Window manager ----------
+// Convention-based: any .window is draggable + raisable.
+// Any [data-close] closes its parent window. Any [data-open="id"] opens that window.
+// New apps need only HTML — no JS edits.
 
-function dragElement(element) {
-  var initialX = 0;
-  var initialY = 0;
-  var currentX = 0;
-  var currentY = 0;
+var zCounter = 10;
+function bringToFront(element) {
+  zCounter += 1;
+  element.style.zIndex = zCounter;
+}
 
-  var header = document.getElementById(element.id + "header");
-  if (header) {
-    header.onmousedown = startDragging;
-  } else {
-    element.onmousedown = startDragging;
-  }
+function closeWindow(element) {
+  element.classList.remove("opening");
+  element.classList.add("closing");
+  setTimeout(function () {
+    element.style.display = "none";
+  }, 320);
+}
+
+function openWindow(element) {
+  element.style.display = "flex";
+  element.classList.remove("closing");
+  void element.offsetWidth; // force reflow so anim restarts each open
+  element.classList.add("opening");
+  bringToFront(element);
+}
+
+// Drag a window by its .windowheader.
+function makeDraggable(element) {
+  var initialX = 0, initialY = 0, currentX = 0, currentY = 0;
+  var handle = element.querySelector(".windowheader") || element;
+
+  handle.onmousedown = startDragging;
 
   function startDragging(e) {
     e = e || window.event;
@@ -56,54 +72,25 @@ function dragElement(element) {
   }
 }
 
-// Raise the clicked window above the others.
-var zCounter = 10;
-function bringToFront(element) {
-  zCounter += 1;
-  element.style.zIndex = zCounter;
-}
-
-// ---------- Open / Close window ----------
-var welcomeScreen = document.querySelector("#welcome");
-var aimTrainer = document.querySelector("#aimtrainer");
-
-function closeWindow(element) {
-  element.classList.remove("opening");
-  element.classList.add("closing");
-  // wait for the animation, then fully hide
-  setTimeout(function () {
-    element.style.display = "none";
-  }, 320);
-}
-
-function openWindow(element) {
-  element.style.display = "flex";
-  element.classList.remove("closing");
-  // force reflow so the animation restarts every open
-  void element.offsetWidth;
-  element.classList.add("opening");
-  bringToFront(element);
-}
-
-// Buttons
-var welcomeScreenClose  = document.querySelector("#welcomeclose");
-var welcomeScreenClose2 = document.querySelector("#welcomeclose2");
-var welcomeScreenOpen   = document.querySelector("#welcomeopen");
-var aimTrainerClose     = document.querySelector("#aimclose");
-var aimTrainerOpen      = document.querySelector("#aimopen");
-
-welcomeScreenClose.addEventListener("click", function () {
-  closeWindow(welcomeScreen);
+// Wire every window: draggable + raise on click.
+document.querySelectorAll(".window").forEach(function (win) {
+  makeDraggable(win);
+  win.addEventListener("mousedown", function () {
+    bringToFront(win);
+  });
 });
-welcomeScreenClose2.addEventListener("click", function () {
-  closeWindow(welcomeScreen);
+
+// Wire every close button: closes its own window.
+document.querySelectorAll("[data-close]").forEach(function (btn) {
+  btn.addEventListener("click", function () {
+    closeWindow(btn.closest(".window"));
+  });
 });
-welcomeScreenOpen.addEventListener("click", function () {
-  openWindow(welcomeScreen);
-});
-aimTrainerClose.addEventListener("click", function () {
-  closeWindow(aimTrainer);
-});
-aimTrainerOpen.addEventListener("click", function () {
-  openWindow(aimTrainer);
+
+// Wire every opener: opens window whose id == data-open value.
+document.querySelectorAll("[data-open]").forEach(function (opener) {
+  opener.addEventListener("click", function () {
+    var target = document.getElementById(opener.dataset.open);
+    if (target) openWindow(target);
+  });
 });

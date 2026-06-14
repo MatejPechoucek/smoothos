@@ -16,8 +16,8 @@
     <!-- Top bar -->
     <div id="topbar">
       <div class="topbar-left">
-        <p id="welcomeopen" class="topbar-brand">SmoothOS</p>
-        <p id="aimopen" class="topbar-item">Aim Trainer</p>
+        <p class="topbar-brand" data-open="welcome">SmoothOS</p>
+        <p class="topbar-item" data-open="aimtrainer">Aim Trainer</p>
       </div>
       <div class="topbar-right">
         <span id="clock" class="topbar-clock">00:00</span>
@@ -26,9 +26,9 @@
 
     <!-- Welcome window -->
     <div class="window" id="welcome" style="top: calc(50% - 150px); left: calc(50% - 200px);">
-      <div class="windowheader" id="welcomeheader">
+      <div class="windowheader">
         <div class="traffic-lights">
-          <div class="closebutton" id="welcomeclose" title="Close"></div>
+          <div class="closebutton" data-close title="Close"></div>
           <div class="dot dot-yellow"></div>
           <div class="dot dot-green"></div>
         </div>
@@ -38,15 +38,15 @@
       <div class="windowbody">
         <h1 class="welcome-title">SmoothOS</h1>
         <p class="welcome-sub">Drag me by the bar. Close me. Reopen from the menu.</p>
-        <button class="cta" id="welcomeclose2">Got it</button>
+        <button class="cta" data-close>Got it</button>
       </div>
     </div>
 
+    <!-- Aim Trainer window -->
     <div class="window" id="aimtrainer" style="top: calc(50% - 150px); left: calc(50% - 200px);">
-
-      <div class="windowheader" id="aimtrainerheader">
+      <div class="windowheader">
         <div class="traffic-lights">
-          <div class="closebutton" id="aimclose" title="Close"></div>
+          <div class="closebutton" data-close title="Close"></div>
           <div class="dot dot-yellow"></div>
           <div class="dot dot-green"></div>
         </div>
@@ -58,11 +58,11 @@
         <p class="welcome-sub">This will be an Aim Trainer for SmoothOS.</p>
         <button class="cta" id="startgame">Let's go!</button>
       </div>
-
     </div>
 
   </div>
 
   <script src="script.js"></script>
+  <script src="aim.js"></script>
 </body>
 </html>
