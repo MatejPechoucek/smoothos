@@ -63,45 +63,59 @@ html, body {
 @keyframes float2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-100px,-60px)} }
 @keyframes float3 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-80px,100px)} }
 
-/* ---------- Top bar ---------- */
-#topbar {
+/* ---------- Desktop icons ---------- */
+#desktop-icons {
   position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 36px;
+  top: 24px;
+  left: 24px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  z-index: 1000;
-}
-.topbar-left {
-  display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 18px;
+  z-index: 100;
 }
-.topbar-brand {
+.desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 92px;
+  padding: 10px 6px;
+  border: none;
+  background: transparent;
+  border-radius: 14px;
+  cursor: pointer;
+  font: inherit;
+  transition: background 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.desktop-icon:hover { background: rgba(255, 255, 255, 0.1); }
+.desktop-icon:active { transform: scale(0.95); }
+
+.icon-tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(255,95,109,0.85), rgba(79,172,254,0.85));
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35),
+              inset 0 1px 1px rgba(255, 255, 255, 0.35);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+.desktop-icon:hover .icon-tile {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.45),
+              inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+.icon-tile svg { filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3)); }
+.icon-label {
   color: #fff;
-  font-weight: 600;
-  font-size: 14px;
-  cursor: pointer;
-  user-select: none;
-  transition: opacity 0.2s var(--ease);
-}
-.topbar-brand:hover { opacity: 0.7; }
-.topbar-item {
-  color: rgba(255, 255, 255, 0.85);
+  font-size: 12px;
   font-weight: 500;
-  font-size: 13px;
-  cursor: pointer;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   user-select: none;
-  transition: opacity 0.2s var(--ease);
 }
-.topbar-item:hover { opacity: 0.6; }
 
 .aim-title {
   color: #fff;
@@ -115,12 +129,96 @@ html, body {
   -webkit-text-fill-color: transparent;
   animation: shimmer 6s linear infinite;
 }
-.topbar-clock {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 13px;
-  font-variant-numeric: tabular-nums;
-  user-select: none;
+
+.aim-game {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  align-self: stretch;
 }
+
+.target {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ff8a8a, #ec3b3b);
+  box-shadow: 0 4px 14px rgba(236, 59, 59, 0.5),
+              inset 0 2px 4px rgba(255, 255, 255, 0.4);
+  cursor: crosshair;
+  animation: targetPop 0.18s var(--ease);
+  transition: transform 0.1s var(--ease);
+}
+.target:hover { transform: scale(1.08); }
+.target:active { transform: scale(0.9); }
+@keyframes targetPop {
+  0%   { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.aim-score {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+}
+
+.aim-result {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  animation: popIn 0.36s var(--ease);
+}
+.aim-final {
+  color: #fff;
+  font-size: 28px;
+  font-weight: 600;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+/* ---------- Dock ---------- */
+#dock {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  padding: 0; /* collapses when empty */
+  z-index: 900;
+}
+#dock:empty { display: none; }
+.dock-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+  background: rgba(30, 30, 46, 0.55);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  animation: popIn 0.3s var(--ease);
+  transition: transform 0.18s var(--ease), background 0.18s var(--ease);
+}
+.dock-chip::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #ff5f6d, #4facfe);
+}
+.dock-chip:hover {
+  transform: translateY(-3px);
+  background: rgba(50, 50, 70, 0.7);
+}
+.dock-chip:active { transform: translateY(0); }
 
 /* ---------- Window ---------- */
 .window {
@@ -129,6 +227,7 @@ html, body {
   display: flex;
   flex-direction: column;
   border-radius: 16px;
+  display: none;
   background: rgba(30, 30, 46, 0.55);
   backdrop-filter: blur(24px) saturate(160%);
   -webkit-backdrop-filter: blur(24px) saturate(160%);
@@ -167,6 +266,24 @@ html, body {
   height: 680px;
 }
 
+/* hide the intro once the game starts */
+.aim-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.window.playing .aim-intro { display: none; }
+
+.aim-timer {
+  color: #fff;
+  font-size: 48px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -1px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
 /* ---------- Window header ---------- */
 .windowheader {
   width: 100%;
@@ -185,7 +302,7 @@ html, body {
   gap: 8px;
   align-items: center;
 }
-.closebutton, .dot {
+.closebutton, .minimizebutton, .maximizebutton {
   width: 13px;
   height: 13px;
   border-radius: 50%;
@@ -193,8 +310,8 @@ html, body {
   transition: transform 0.15s var(--ease), filter 0.15s var(--ease);
 }
 .closebutton { background: #ec6b5e; cursor: pointer; }
-.dot-yellow  { background: #f5bf4f; }
-.dot-green   { background: #61c454; }
+.minimizebutton { background: #f5bf4f; cursor: pointer; }
+.maximizebutton { background: #61c454; cursor: pointer; }
 .traffic-lights:hover .closebutton,
 .traffic-lights:hover .dot { filter: brightness(1.1); }
 .closebutton:hover { transform: scale(1.18); }
@@ -209,6 +326,8 @@ html, body {
 
 /* ---------- Window body ---------- */
 .windowbody {
+  flex: 1;
+  min-height: 0;
   padding: 32px 28px 36px;
   display: flex;
   flex-direction: column;

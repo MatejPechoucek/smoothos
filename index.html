@@ -13,24 +13,31 @@
     <div class="blob blob-b"></div>
     <div class="blob blob-c"></div>
 
-    <!-- Top bar -->
-    <div id="topbar">
-      <div class="topbar-left">
-        <p class="topbar-brand" data-open="welcome">SmoothOS</p>
-        <p class="topbar-item" data-open="aimtrainer">Aim Trainer</p>
-      </div>
-      <div class="topbar-right">
-        <span id="clock" class="topbar-clock">00:00</span>
-      </div>
+    <!-- Desktop icons -->
+    <div id="desktop-icons">
+      <button class="desktop-icon" data-open="aimtrainer" title="Aim Trainer">
+        <span class="icon-tile">
+          <svg viewBox="0 0 48 48" width="38" height="38" aria-hidden="true">
+            <circle cx="24" cy="24" r="18" fill="none" stroke="#fff" stroke-width="2.5" opacity="0.9"/>
+            <circle cx="24" cy="24" r="11" fill="none" stroke="#fff" stroke-width="2.5" opacity="0.6"/>
+            <circle cx="24" cy="24" r="4" fill="#ff5f6d"/>
+            <line x1="24" y1="2"  x2="24" y2="11" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="24" y1="37" x2="24" y2="46" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="2"  y1="24" x2="11" y2="24" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="37" y1="24" x2="46" y2="24" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="icon-label">Aim Trainer</span>
+      </button>
     </div>
 
     <!-- Welcome window -->
-    <div class="window" id="welcome" style="top: calc(50% - 150px); left: calc(50% - 200px);">
+    <div class="window" id="welcome" style="top: calc(50% - 150px); left: calc(50% - 200px);";>
       <div class="windowheader">
         <div class="traffic-lights">
           <div class="closebutton" data-close title="Close"></div>
-          <div class="dot dot-yellow"></div>
-          <div class="dot dot-green"></div>
+          <div class="minimizebutton" data-minimize title="Minimize"></div>
+          <div class="maximizebutton"></div>
         </div>
         <p class="headertext">Welcome</p>
         <span class="header-spacer"></span>
@@ -47,18 +54,23 @@
       <div class="windowheader">
         <div class="traffic-lights">
           <div class="closebutton" data-close title="Close"></div>
-          <div class="dot dot-yellow"></div>
-          <div class="dot dot-green"></div>
+          <div class="minimizebutton" data-minimize title="Minimize"></div>
+          <div class="maximizebutton"></div>
         </div>
         <p class="headertext">Aim Trainer</p>
         <span class="header-spacer"></span>
       </div>
       <div class="windowbody">
-        <h1 class="aim-title">Aim Trainer</h1>
-        <p class="welcome-sub">This will be an Aim Trainer for SmoothOS.</p>
-        <button class="cta" id="startgame">Let's go!</button>
+        <div class="aim-intro">
+          <h1 class="aim-title">Aim Trainer</h1>
+          <p class="welcome-sub">This will be an Aim Trainer for SmoothOS.</p>
+          <button class="cta" id="startgame">Let's go!</button>
+        </div>
       </div>
     </div>
+
+    <!-- Dock: chips for minimized windows -->
+    <div id="dock"></div>
 
   </div>
 

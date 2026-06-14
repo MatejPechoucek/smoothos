@@ -1,14 +1,3 @@
-// ---------- Clock in the top bar ----------
-function tickClock() {
-  var el = document.querySelector("#clock");
-  var now = new Date();
-  var h = String(now.getHours()).padStart(2, "0");
-  var m = String(now.getMinutes()).padStart(2, "0");
-  el.textContent = h + ":" + m;
-}
-tickClock();
-setInterval(tickClock, 1000);
-
 // ---------- Window manager ----------
 // Convention-based: any .window is draggable + raisable.
 // Any [data-close] closes its parent window. Any [data-open="id"] opens that window.
@@ -25,7 +14,9 @@ function closeWindow(element) {
   element.classList.add("closing");
   setTimeout(function () {
     element.style.display = "none";
+    element.classList.remove("closing");
   }, 320);
+  removeDockChip(element); // close also clears any dock chip
 }
 
 function openWindow(element) {
@@ -34,6 +25,44 @@ function openWindow(element) {
   void element.offsetWidth; // force reflow so anim restarts each open
   element.classList.add("opening");
   bringToFront(element);
+}
+
+// Minimize: animate out, hide, drop a chip in the dock.
+function minimizeWindow(element) {
+  element.classList.remove("opening");
+  element.classList.add("closing");
+  setTimeout(function () {
+    element.style.display = "none";
+    element.classList.remove("closing");
+  }, 320);
+  addDockChip(element);
+}
+
+// Restore from the dock.
+function restoreWindow(element) {
+  removeDockChip(element);
+  openWindow(element);
+}
+
+// ----- Dock -----
+var dock = document.getElementById("dock");
+
+function addDockChip(win) {
+  if (dock.querySelector('[data-for="' + win.id + '"]')) return; // already docked
+  var title = win.querySelector(".headertext");
+  var chip = document.createElement("div");
+  var chipbutton = document.createElement("button");
+  var chipclose = document.createElement("button");
+  chip.className = "dock-chip";
+  chip.dataset.for = win.id;
+  chip.textContent = title ? title.textContent : win.id;
+  chip.addEventListener("click", function () { restoreWindow(win); });
+  dock.appendChild(chip);
+}
+
+function removeDockChip(win) {
+  var chip = dock.querySelector('[data-for="' + win.id + '"]');
+  if (chip) chip.remove();
 }
 
 // Drag a window by its .windowheader.
@@ -92,5 +121,12 @@ document.querySelectorAll("[data-open]").forEach(function (opener) {
   opener.addEventListener("click", function () {
     var target = document.getElementById(opener.dataset.open);
     if (target) openWindow(target);
+  });
+});
+
+// Wire every minimize button: minimizes window to dock.
+document.querySelectorAll("[data-minimize]").forEach(function (minimizer) {
+  minimizer.addEventListener("click", function () {
+    minimizeWindow(minimizer.closest(".window"));
   });
 });
