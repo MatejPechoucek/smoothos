@@ -29,19 +29,18 @@
         </span>
         <span class="icon-label">Aim Trainer</span>
       </button>
+      <button class="desktop-icon" data-open="settings" title="Settings">
+        <span class="icon-tile">
+          <svg viewBox="0 0 48 48" width="38" height="38" aria-hidden="true">
+            <circle cx="24" cy="24" r="20" fill="red" stroke="#fff"
+            stroke-width="4" opacity="1"/>
+          </svg>
+        </span>
+      </button>
     </div>
 
     <!-- Welcome window -->
-    <div class="window" id="welcome" style="top: calc(50% - 150px); left: calc(50% - 200px);";>
-      <div class="windowheader">
-        <div class="traffic-lights">
-          <div class="closebutton" data-close title="Close"></div>
-          <div class="minimizebutton" data-minimize title="Minimize"></div>
-          <div class="maximizebutton"></div>
-        </div>
-        <p class="headertext">Welcome</p>
-        <span class="header-spacer"></span>
-      </div>
+    <div class="window" id="welcome" data-title="Welcome" style="top: calc(50% - 150px); left: calc(50% - 200px);">
       <div class="windowbody">
         <h1 class="welcome-title">SmoothOS</h1>
         <p class="welcome-sub">Drag me by the bar. Close me. Reopen from the menu.</p>
@@ -50,16 +49,7 @@
     </div>
 
     <!-- Aim Trainer window -->
-    <div class="window" id="aimtrainer" style="top: calc(50% - 150px); left: calc(50% - 200px);">
-      <div class="windowheader">
-        <div class="traffic-lights">
-          <div class="closebutton" data-close title="Close"></div>
-          <div class="minimizebutton" data-minimize title="Minimize"></div>
-          <div class="maximizebutton"></div>
-        </div>
-        <p class="headertext">Aim Trainer</p>
-        <span class="header-spacer"></span>
-      </div>
+    <div class="window" id="aimtrainer" data-title="Aim Trainer" style="top: calc(50% - 150px); left: calc(50% - 200px);">
       <div class="windowbody">
         <div class="aim-intro">
           <h1 class="aim-title">Aim Trainer</h1>
@@ -68,7 +58,18 @@
         </div>
       </div>
     </div>
-
+    <!-- Settings Window -->
+     <div class="window" id="settings" data-title="Settings" style="top:calc(50%-150px); left: calc(50% - 200px);">
+        <div class="windowbody">
+          <div class="main-menu">
+            <h1 class="settings-title">Settings</h1>
+            <p class="settings-info">This is the place to adjust settings.
+              You can adjust the wallpaper, accent color, toggle blobs, amongst
+              other things.
+            </p>
+          </div>
+        </div>
+     </div>
     <!-- Dock: chips for minimized windows -->
     <div id="dock"></div>
 
@@ -76,5 +77,6 @@
 
   <script src="script.js"></script>
   <script src="aim.js"></script>
+  <script src="settings.js"></script>
 </body>
 </html>

@@ -12,6 +12,9 @@ var AimTrainer = (function () {
   var GAME_SECONDS = 10;
   var TARGET_COUNT = 3;   // how many targets alive at once
   var TARGET_SIZE  = 44;  // px
+  var PLAY_W = 840;       // must match .window.playing in style.css
+  var PLAY_H = 680;
+  var GAP = 24;
 
   // ----- game state -----
   var timeLeft = 0;
@@ -30,12 +33,18 @@ var AimTrainer = (function () {
     stop(); // guard: clear any prior round before starting fresh (fix 7)
 
     windowEl.classList.add("playing");
-    // center only on first launch; replays keep the current position
-    if (center) {
-      var w = windowEl.offsetWidth, h = windowEl.offsetHeight;
-      windowEl.style.left = (window.innerWidth  - w) / 2 + "px";
-      windowEl.style.top  = (window.innerHeight - h) / 2 + "px";
-    }
+    // Center vertically every round (initial + replay); horizontal stays put.
+    // floor at 0 so a short viewport can't push it off the top edge.
+    //var left = Math.max(0, (window.innerWidth  - PLAY_W) / 2);
+    var top  = Math.max(0, (window.innerHeight - PLAY_H) / 2);
+    //windowEl.style.left = left + "px";
+    windowEl.style.top  = top + "px";
+
+    // keep horizontal position, but pull back so the wider window doesn't
+    // spill off the right/left edge. clamp current left into [0, maxLeft].
+    var maxLeft = Math.max(GAP, window.innerWidth - PLAY_W - GAP); // 24px right gap
+    var left = Math.min(Math.max(GAP, windowEl.offsetLeft), maxLeft);
+    windowEl.style.left = left + "px";
 
     // HUD
     scoreEl = document.createElement("div");

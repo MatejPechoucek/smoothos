@@ -71,7 +71,7 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: 18px;
-  z-index: 100;
+  z-index: 1; /* sit on the desktop, below any window (windows start z-index 10) */
 }
 .desktop-icon {
   display: flex;
@@ -191,15 +191,10 @@ html, body {
 .dock-chip {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 18px;
+  gap: 6px;
+  padding: 0 8px 0 14px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 12px;
-  font: inherit;
-  font-size: 13px;
-  font-weight: 500;
-  color: #fff;
-  cursor: pointer;
   background: rgba(30, 30, 46, 0.55);
   backdrop-filter: blur(18px) saturate(160%);
   -webkit-backdrop-filter: blur(18px) saturate(160%);
@@ -209,6 +204,7 @@ html, body {
 }
 .dock-chip::before {
   content: "";
+  flex: none;
   width: 8px;
   height: 8px;
   border-radius: 50%;
@@ -219,6 +215,41 @@ html, body {
   background: rgba(50, 50, 70, 0.7);
 }
 .dock-chip:active { transform: translateY(0); }
+
+/* restore button = the labelled body of the chip */
+.chip-restore {
+  border: none;
+  background: transparent;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+  padding: 10px 2px;
+}
+
+/* close button = small × on the right */
+.chip-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s var(--ease), color 0.15s var(--ease);
+}
+.chip-close:hover {
+  background: rgba(255, 95, 109, 0.3);
+  color: #fff;
+}
+.chip-close:active { transform: scale(0.9); }
 
 /* ---------- Window ---------- */
 .window {
@@ -261,9 +292,35 @@ html, body {
   cursor: grabbing;
 }
 
+/* live resize: drop the transition so the window tracks the mouse instantly */
+.window.resizing { transition: none; }
+
+/* ---------- Resize handles (4 edges + 4 corners) ---------- */
+.resizehandle { position: absolute; z-index: 5; }
+/* edges: thin strips, inset from corners so corners win the overlap */
+.resizehandle.n { top: 0;    left: 10px; right: 10px; height: 6px; cursor: ns-resize; }
+.resizehandle.s { bottom: 0; left: 10px; right: 10px; height: 6px; cursor: ns-resize; }
+.resizehandle.e { right: 0;  top: 10px; bottom: 10px; width: 6px; cursor: ew-resize; }
+.resizehandle.w { left: 0;   top: 10px; bottom: 10px; width: 6px; cursor: ew-resize; }
+/* corners: small squares, above edges */
+.resizehandle.ne { top: 0;    right: 0; width: 12px; height: 12px; cursor: nesw-resize; z-index: 6; }
+.resizehandle.nw { top: 0;    left: 0;  width: 12px; height: 12px; cursor: nwse-resize; z-index: 6; }
+.resizehandle.se { bottom: 0; right: 0; width: 14px; height: 14px; cursor: nwse-resize; z-index: 6; }
+.resizehandle.sw { bottom: 0; left: 0;  width: 12px; height: 12px; cursor: nesw-resize; z-index: 6; }
+
 .window.playing {
-  width: 840px;
-  height: 680px;
+  width: 840px !important;  /* beat any inline size left by manual resize */
+  height: 680px !important;
+}
+
+/* Maximize: fill viewport minus a gap. !important beats inline + .playing.
+   Window transition animates the size/position change smoothly. */
+.window.maximized {
+  --gap: 24px;
+  top: var(--gap) !important;
+  left: var(--gap) !important;
+  width: calc(100vw - var(--gap) * 2) !important;
+  height: calc(100vh - var(--gap) * 2) !important;
 }
 
 /* hide the intro once the game starts */
@@ -314,7 +371,9 @@ html, body {
 .maximizebutton { background: #61c454; cursor: pointer; }
 .traffic-lights:hover .closebutton,
 .traffic-lights:hover .dot { filter: brightness(1.1); }
-.closebutton:hover { transform: scale(1.18); }
+.closebutton:hover,
+.minimizebutton:hover,
+.maximizebutton:hover { transform: scale(1.18); }
 
 .headertext {
   color: #fff;
