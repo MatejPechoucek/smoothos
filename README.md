@@ -69,8 +69,9 @@ aim.js         Aim Trainer app module
 settings.js    Settings app module
 package.json   development scripts and Playwright test dependency
 playwright.config.js browser test configuration
+scripts/       utility scripts, including demo video recording
 tests/         Playwright browser tests
-docs/          README assets
+docs/          README assets, devlog draft, and demo video
 ```
 
 ## Running
@@ -104,6 +105,17 @@ npm run test:e2e:slow
 ```
 
 The Playwright config uses the installed Google Chrome app via the `chrome` channel and serves the project locally with Python. The browser test covers Settings controls, wallpaper blur, wallpaper/icon linking, accent colour, persistence after reload, and reset.
+
+## Devlog and demo
+
+- Devlog draft: `docs/devlog-settings-refresh.md`
+- Demo video: `docs/demo/smoothos-settings-refresh.webm`
+
+Regenerate the captioned demo video:
+
+```
+npm run record:demo
+```
 
 ## Roadmap
 
