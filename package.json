@@ -1,0 +1,16 @@
+{
+  "name": "smoothos",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A glassmorphic web desktop built with plain HTML, CSS, and JavaScript.",
+  "scripts": {
+    "test": "npm run test:js && npm run test:e2e",
+    "test:js": "node --check script.js && node --check aim.js && node --check settings.js",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:slow": "SLOWMO_MS=700 playwright test --headed --workers=1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0"
+  }
+}
