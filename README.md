@@ -20,11 +20,12 @@ The goal: a desktop environment that feels as smooth as a native OS, with dragga
 | Action | How |
 |--------|-----|
 | Move | Drag the window header |
-| Raise | Click anywhere on a window |
-| Close | Red traffic light, or any `[data-close]` element |
-| Minimize | Yellow traffic light. Drops a chip in the dock; click to restore |
-| Maximize | Green traffic light. Toggles full-screen with a 24px gap |
+| Raise / focus | Click a window. The active window stays crisp; others dim slightly |
+| Close | Red traffic light, any `[data-close]` element, or `Esc` on the focused window |
+| Minimize | Yellow traffic light, or `Cmd`/`Ctrl`+`M`. Drops a chip in the dock; click to restore |
+| Maximize | Green traffic light, or double-click the header. Toggles full-screen with a 24px gap |
 | Resize | Drag any edge or corner (8 handles) |
+| Snap | Drag the header to the top edge to maximize, or to the left/right edge to tile half-screen. A preview shows the target |
 
 ## Apps
 
@@ -123,9 +124,6 @@ npm run record:demo
 ## Roadmap
 
 - Persist open windows and their geometry to `localStorage`
-- Focused vs. unfocused window styling
-- Keyboard shortcuts (Esc to close, double-click header to maximize)
-- Snap-to-edge while dragging
 - More apps: Notes, Files
 
 ## Credits

@@ -160,6 +160,7 @@ var SettingsMenu = (function () {
         root.style.setProperty("--blob-blur", (80 + state.blur) + "px");
 
         root.style.setProperty("--glass-blur", state.glassBlur + "px");
+        root.style.setProperty("--glass-veil", (state.glassBlur / 40 * 0.16).toFixed(3));
         root.style.setProperty("--window-alpha", (state.windowAlpha / 100).toFixed(2));
         root.style.setProperty("--window-radius", state.radius + "px");
 

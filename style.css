@@ -7,7 +7,8 @@
 :root {
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --accent: #3b82f6;       /* OS accent recoloured from Settings */
-  --glass-blur: 24px;      /* window frost strength, controlled from Settings */
+  --glass-blur: 24px;      /* window backdrop blur, controlled from Settings */
+  --glass-veil: 0.06;      /* frosted milkiness on the window surface, from Settings */
   --window-alpha: 0.42;    /* window background opacity, controlled from Settings */
   --window-radius: 16px;   /* window corner radius, controlled from Settings */
   --wallpaper-blur: 0px;   /* desktop backdrop blur controlled from Settings */
@@ -285,7 +286,11 @@ html, body {
   flex-direction: column;
   border-radius: var(--window-radius);
   display: none;
-  background: rgba(30, 30, 46, var(--window-alpha));
+  /* Two layers: a white frost veil (always visible, scales with the glass slider)
+     over the tinted translucent base. Backdrop blur still frosts overlapping content. */
+  background:
+    linear-gradient(rgba(255, 255, 255, var(--glass-veil)), rgba(255, 255, 255, var(--glass-veil))),
+    rgba(30, 30, 46, var(--window-alpha));
   backdrop-filter: blur(var(--glass-blur)) saturate(160%);
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
   border: 1px solid rgba(255, 255, 255, 0.14);
@@ -293,7 +298,8 @@ html, body {
   overflow: hidden;
   /* open animation */
   transform-origin: center;
-  transition: transform 0.45s var(--ease), opacity 0.45s var(--ease), 
+  transition: transform 0.45s var(--ease), opacity 0.45s var(--ease),
+              box-shadow 0.3s var(--ease), filter 0.3s var(--ease),
               width 0.45s var(--ease), height 0.45s var(--ease),
               left 0.45s var(--ease), top 0.45s var(--ease);
 }
@@ -320,6 +326,31 @@ html, body {
 
 /* live resize: drop the transition so the window tracks the mouse instantly */
 .window.resizing { transition: none; }
+
+/* Focused vs. unfocused: the active window stays crisp + raised; the rest dim
+   slightly so the layering (and the glass) reads. */
+.window:not(.is-focused) {
+  filter: saturate(0.85) brightness(0.92);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+.window.is-focused {
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+/* Snap-to-edge preview: translucent accent-bordered target shown while dragging. */
+#snap-preview {
+  position: absolute;
+  z-index: 9;
+  display: none;
+  pointer-events: none;
+  border-radius: var(--window-radius);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1.5px solid var(--accent);
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.25);
+  transition: left 0.12s var(--ease), top 0.12s var(--ease),
+              width 0.12s var(--ease), height 0.12s var(--ease);
+}
 
 /* ---------- Resize handles (4 edges + 4 corners) ---------- */
 .resizehandle { position: absolute; z-index: 5; }
@@ -835,9 +866,12 @@ html, body {
 /* ---------- Light mode (Settings toggle) ----------
    Lightens window chrome + flips text dark. Desktop wallpaper stays selected. */
 body.light .window {
-  background: rgba(255, 255, 255, 0.62);
+  background:
+    linear-gradient(rgba(255, 255, 255, var(--glass-veil)), rgba(255, 255, 255, var(--glass-veil))),
+    rgba(255, 255, 255, 0.62);
   border-color: rgba(0, 0, 0, 0.08);
 }
+body.light .window:not(.is-focused) { filter: brightness(0.97); }
 body.light .windowheader {
   background: rgba(0, 0, 0, 0.03);
   border-color: rgba(0, 0, 0, 0.07);
