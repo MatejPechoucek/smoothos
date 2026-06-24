@@ -13,6 +13,12 @@
     <div class="blob blob-b"></div>
     <div class="blob blob-c"></div>
 
+    <!-- Menu bar: live clock along the top edge. Hidden until enabled in Settings. -->
+    <div id="menubar">
+      <span class="menubar-brand">SmoothOS</span>
+      <span id="menubar-clock"></span>
+    </div>
+
     <!-- Desktop icons -->
     <div id="desktop-icons">
       <button class="desktop-icon" data-open="aimtrainer" title="Aim Trainer">
@@ -39,6 +45,24 @@
           </svg>
         </span>
         <span class="icon-label">Settings</span>
+      </button>
+      <button class="desktop-icon" data-open="calculator" title="Calculator">
+        <span class="icon-tile">
+          <!-- Feather-style calculator: rounded body, screen, key grid -->
+          <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="#fff"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="4" y="2" width="16" height="20" rx="2"/>
+            <line x1="8" y1="6" x2="16" y2="6"/>
+            <line x1="8" y1="11" x2="8" y2="11"/>
+            <line x1="12" y1="11" x2="12" y2="11"/>
+            <line x1="16" y1="11" x2="16" y2="11"/>
+            <line x1="8" y1="15" x2="8" y2="15"/>
+            <line x1="12" y1="15" x2="12" y2="15"/>
+            <line x1="16" y1="15" x2="16" y2="18"/>
+            <line x1="8" y1="18" x2="12" y2="18"/>
+          </svg>
+        </span>
+        <span class="icon-label">Calculator</span>
       </button>
     </div>
 
@@ -166,6 +190,35 @@
                   </div>
                 </div>
               </div>
+
+              <div class="settings-section">Windows</div>
+              <div class="settings-row">
+                <div class="settings-row-text">
+                  <span class="settings-row-label">Window glass</span>
+                  <span class="settings-row-desc">Frost strength behind windows.</span>
+                </div>
+                <div class="settings-row-control">
+                  <input class="range" type="range" min="0" max="40" value="24" data-setting="glassBlur">
+                </div>
+              </div>
+              <div class="settings-row">
+                <div class="settings-row-text">
+                  <span class="settings-row-label">Window transparency</span>
+                  <span class="settings-row-desc">How much desktop shows through windows.</span>
+                </div>
+                <div class="settings-row-control">
+                  <input class="range" type="range" min="5" max="85" value="42" data-setting="windowAlpha">
+                </div>
+              </div>
+              <div class="settings-row">
+                <div class="settings-row-text">
+                  <span class="settings-row-label">Corner radius</span>
+                  <span class="settings-row-desc">Roundness of window corners.</span>
+                </div>
+                <div class="settings-row-control">
+                  <input class="range" type="range" min="0" max="28" value="16" data-setting="radius">
+                </div>
+              </div>
             </div><!-- .settings-list -->
           </div><!-- .settings-panel (appearance) -->
 
@@ -196,6 +249,33 @@
                   </label>
                 </div>
               </div>
+              <div class="settings-section">Menu bar</div>
+              <div class="settings-row">
+                <div class="settings-row-text">
+                  <span class="settings-row-label">Menu bar clock</span>
+                  <span class="settings-row-desc">Show a live clock along the top edge.</span>
+                </div>
+                <div class="settings-row-control">
+                  <label class="switch">
+                    <input type="checkbox" data-setting="clock">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="settings-row">
+                <div class="settings-row-text">
+                  <span class="settings-row-label">24-hour time</span>
+                  <span class="settings-row-desc">Use 24-hour clock instead of AM/PM.</span>
+                </div>
+                <div class="settings-row-control">
+                  <label class="switch">
+                    <input type="checkbox" data-setting="clock24">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="settings-section">Maintenance</div>
               <div class="settings-row">
                 <div class="settings-row-text">
                   <span class="settings-row-label">Reset to defaults</span>
@@ -211,6 +291,40 @@
         </div><!-- .settings-panels -->
       </div>
     </div>
+    <!-- Calculator window -->
+    <div class="window" id="calculator" data-title="Calculator" style="top: 80px; left: 120px;">
+      <div class="windowbody">
+        <div class="calc">
+          <div class="calc-display" id="calc-display">0</div>
+          <div class="calc-keys">
+            <button class="calc-btn calc-fn" data-key="clear">AC</button>
+            <button class="calc-btn calc-fn" data-key="negate">+/−</button>
+            <button class="calc-btn calc-fn" data-key="percent">%</button>
+            <button class="calc-btn calc-op" data-key="/">÷</button>
+
+            <button class="calc-btn" data-key="7">7</button>
+            <button class="calc-btn" data-key="8">8</button>
+            <button class="calc-btn" data-key="9">9</button>
+            <button class="calc-btn calc-op" data-key="*">×</button>
+
+            <button class="calc-btn" data-key="4">4</button>
+            <button class="calc-btn" data-key="5">5</button>
+            <button class="calc-btn" data-key="6">6</button>
+            <button class="calc-btn calc-op" data-key="-">−</button>
+
+            <button class="calc-btn" data-key="1">1</button>
+            <button class="calc-btn" data-key="2">2</button>
+            <button class="calc-btn" data-key="3">3</button>
+            <button class="calc-btn calc-op" data-key="+">+</button>
+
+            <button class="calc-btn calc-zero" data-key="0">0</button>
+            <button class="calc-btn" data-key=".">.</button>
+            <button class="calc-btn calc-eq" data-key="=">=</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Dock: chips for minimized windows -->
     <div id="dock"></div>
 
@@ -218,6 +332,8 @@
 
   <script src="script.js"></script>
   <script src="aim.js"></script>
+  <script src="clock.js"></script>
   <script src="settings.js"></script>
+  <script src="calc.js"></script>
 </body>
 </html>

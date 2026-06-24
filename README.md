@@ -29,7 +29,8 @@ The goal: a desktop environment that feels as smooth as a native OS, with dragga
 ## Apps
 
 - **Aim Trainer** — a 10-second click-the-target game. Targets spawn without overlapping, score tracks live, a result panel offers a replay. The window grows to a fixed play size and re-centers vertically each round.
-- **Settings** — wallpaper themes, wallpaper blur, icon tint, accent colour, light mode, reduced motion, persistence, and reset controls.
+- **Calculator** — a full keypad calculator: add, subtract, multiply, divide, percent, sign toggle, decimals, and chained operations. Driven by mouse or physical keyboard (digits, operators, `Enter`/`=`, `Backspace`, `Esc`, `%`); keyboard input is active only while the window is open. Divide-by-zero shows `Error`.
+- **Settings** — wallpaper themes, wallpaper blur, ambient blobs, icon tint, accent colour, window glass/transparency/corner radius, a menu-bar clock (12/24-hour), light mode, reduced motion, persistence, and reset controls.
 - **Welcome** — the intro window.
 
 <!-- Screenshots: drop PNGs into docs/ and uncomment.
@@ -66,6 +67,8 @@ index.html     markup: desktop, icons, windows, dock
 style.css      all styling and animations
 script.js      window manager (drag, resize, open/close, minimize, dock)
 aim.js         Aim Trainer app module
+calc.js        Calculator app module
+clock.js       Menu-bar clock module
 settings.js    Settings app module
 package.json   development scripts and Playwright test dependency
 playwright.config.js browser test configuration
@@ -123,7 +126,7 @@ npm run record:demo
 - Focused vs. unfocused window styling
 - Keyboard shortcuts (Esc to close, double-click header to maximize)
 - Snap-to-edge while dragging
-- More apps: Calculator, Notes, Clock
+- More apps: Notes, Files
 
 ## Credits
 

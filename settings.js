@@ -12,7 +12,12 @@ var SettingsMenu = (function () {
         blur: 0,
         blobs: true,
         light: false,
-        reduceMotion: false
+        reduceMotion: false,
+        glassBlur: 24,       // window frost strength (px)
+        windowAlpha: 42,     // window opacity stored as percent (5–85)
+        radius: 16,          // window corner radius (px)
+        clock: false,        // show menu-bar clock
+        clock24: false       // 24-hour time format
     };
 
     var THEMES = {
@@ -86,8 +91,16 @@ var SettingsMenu = (function () {
     function normalize(s) {
         if (!THEMES[s.wallpaper]) s.wallpaper = DEFAULTS.wallpaper;
         if (!THEMES[s.icon]) s.icon = DEFAULTS.icon;
-        if (typeof s.blur !== "number" || isNaN(s.blur)) s.blur = DEFAULTS.blur;
-        s.blur = Math.max(0, Math.min(36, s.blur));
+        clampNum(s, "blur", 0, 36);
+        clampNum(s, "glassBlur", 0, 40);
+        clampNum(s, "windowAlpha", 5, 85);
+        clampNum(s, "radius", 0, 28);
+    }
+
+    // Coerce s[key] to a number in [lo, hi]; fall back to default if NaN.
+    function clampNum(s, key, lo, hi) {
+        if (typeof s[key] !== "number" || isNaN(s[key])) s[key] = DEFAULTS[key];
+        s[key] = Math.max(lo, Math.min(hi, s[key]));
     }
 
     // ---- apply state to the DOM -------------------------------------------
@@ -146,9 +159,16 @@ var SettingsMenu = (function () {
         root.style.setProperty("--wallpaper-blur", state.blur + "px");
         root.style.setProperty("--blob-blur", (80 + state.blur) + "px");
 
+        root.style.setProperty("--glass-blur", state.glassBlur + "px");
+        root.style.setProperty("--window-alpha", (state.windowAlpha / 100).toFixed(2));
+        root.style.setProperty("--window-radius", state.radius + "px");
+
         desktop.classList.toggle("blobs-off", !state.blobs);
         body.classList.toggle("light", state.light);
         body.classList.toggle("reduce-motion", state.reduceMotion);
+
+        body.classList.toggle("clock-on", state.clock);
+        if (window.Clock) window.Clock.setFormat(state.clock24);
 
         if (lockBtn) {
             lockBtn.classList.toggle("is-locked", state.locked);
@@ -196,7 +216,7 @@ var SettingsMenu = (function () {
     if (lockBtn) {
         lockBtn.addEventListener("click", function () {
             state.locked = !state.locked;
-            if (state.locked) state.icon = state.wallpaper;  // snap icon to wallpaper
+            if (state.locked) state.icon = state.wallpaper;
             apply(); save();
         });
     }
